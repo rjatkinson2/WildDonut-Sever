@@ -1,0 +1,30 @@
+{
+  "name": "WildDonut",
+  "version": "0.0.1",
+  "description": "Become your own marketplace",
+  "engine": "node 0.10.x",
+  "main": "index.js",
+  "scripts": {
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/WildDonut/WildDonut-Client.git"
+  },
+  "keywords": [
+    "skills"
+  ],
+  "author": "WildDonut",
+  "bugs": {
+    "url": "https://github.com/WildDonut/WildDonut-Sever/issues"
+  },
+  "homepage": "https://github.com/WildDonut/WildDonut-Client",
+  "devDependencies": {
+    
+  },
+  "dependencies": {
+    "body-parser": "^1.4.3",
+    "express": "^4.4.5",
+    "morgan": "^1.1.1",
+    "request": "^2.36.0"
+  }
+}
