@@ -1,27 +1,34 @@
 {
-  "name": "WildDonut",
+  "name": "WildDonut-Sever",
   "version": "0.0.1",
-  "description": "Become your own marketplace",
-  "engine": "node 0.10.x",
+  "description": "Server implementation for Wild Donut, an application that turns every user into their own marketplace of skills.",
   "main": "index.js",
   "scripts": {
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/WildDonut/WildDonut-Client.git"
+    "url": "https://github.com/WildDonut/WildDonut-Sever.git"
   },
   "keywords": [
-    "skills"
+    "Sharing",
+    "Economy",
+    "Skills",
+    "Marketplace",
+    "Learn",
+    "Skill",
+    "Node",
+    "Mongo",
+    "Express"
   ],
   "author": "WildDonut",
+  "license": "ISC",
   "bugs": {
     "url": "https://github.com/WildDonut/WildDonut-Sever/issues"
   },
-  "homepage": "https://github.com/WildDonut/WildDonut-Client",
-  "devDependencies": {
-    
-  },
+  "homepage": "https://github.com/WildDonut/WildDonut-Sever",
   "dependencies": {
+    "bcrypt-nodejs": "0.0.3",
+    "mongoose": "^4.0.1",
     "body-parser": "^1.4.3",
     "express": "^4.4.5",
     "morgan": "^1.1.1",
