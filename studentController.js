@@ -6,12 +6,12 @@ module.exports.getStudent = function(req, res, next){
   User.findOne({ username: username }, function(err, user){
     if(err){
       console.log(err);
-      /*res.status(400).send('Bad request');*/
+      res.status(400).send('Bad request');
     }else if(!user){
-      console.log('user not found');
-      /*res.status(404).send('User not found');*/
+      console.log('Student not found');
+      res.status(404).send('Student not found');
     }
     console.log(JSON.stringify(user));
-    /*res.json(user);*/
+    res.json(user);
   });
 };
