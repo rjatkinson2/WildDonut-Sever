@@ -5,24 +5,27 @@ var bcrypt = require('bcrypt-nodejs');
 // Ten is the default value.
 var SALT_WORK_FACTOR = 10;
 
-// setup user schma
 var UserSchema = new mongoose.Schema({
-  // depending on the location data, location will likely need to be converted
-  // to a more complicated data structure
   username: { type: String, required: true, index: { unique: true } },
   password: { type: String, required: true },
+  firstName: { type: String },
+  lastName: { type: String },
   location: { type: String },
-  picture: { type: String },
-  bio: { type: String }
+  picture: { type: String },  
+  bio: { type: String },
+  teacher: { type: Boolean, default: false },
+  experience: { type: String },
+  skill: { type: String },
+  payments: { type: Array },
+  classes: { type: Array }
 });
-
 
 // convert password to a hash before saving.
 UserSchema.pre('save', function(next){
   var user = this;
 
-  // if the password hasn't changed from what's stored in the database, then there's no need to proceed with salt generation
-  if(!user.isModified('password')){ return next(); }
+  // if the password hasn't changed, then there's no need to proceed with salt generation
+  if(!user.isModified('password')){ console.log('we all good'); return next(); }
 
   // generate the salt
   bcrypt.genSalt(SALT_WORK_FACTOR, function(err, salt){
