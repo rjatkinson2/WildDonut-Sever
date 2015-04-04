@@ -1,4 +1,6 @@
-var userController = require('./userController.js');
+var userController = require('./userController');
+var studentController = require('./studentController');
+var teacherController = require('./teacherController');
 
 module.exports = function(app) {
   //app === userRouter injected from middleware.js
@@ -9,9 +11,11 @@ module.exports = function(app) {
   app.post('/login', userController.login); 
 
   //Students:
-  app.get('/students/:id', userController.getStudent);
+  app.get('/students/:id', studentController.getStudent);
 
   //Teachers
-  app.get('/teachers', userController.allTeachers);
-  app.get('/teachers/:id', userController.getTeacher);
+  app.get('/teachers', function(req, res, next){ 
+    res.send("imateacher"); 
+  });
+  app.get('/teachers/:id', teacherController.getTeacher);
 };

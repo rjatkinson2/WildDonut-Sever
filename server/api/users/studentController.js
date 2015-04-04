@@ -1,4 +1,4 @@
-var User = require('./userModel.js');
+var User = require('../../database/models/userModel.js');
 
 module.exports.getStudent = function(req, res, next){
   var username = req.params.username;

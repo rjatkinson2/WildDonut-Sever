@@ -1,6 +1,6 @@
-var User = require('./userModel.js');
+var User = require('../../database/models/userModel.js');
 
-module.exports.signup = function(req, res, next){
+module.exports.createUser = function(req, res, next){
   var username = req.body.username;
   var password = req.body.password;
 

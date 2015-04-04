@@ -1,13 +1,13 @@
-var User = require('./userModel.js');
+var User = require('../../database/models/userModel.js');
 
 module.exports.createBooking = function(req, res, next){
 
 };
 
-module.exports.getUserBooking = function(req, res, next){
+module.exports.getUserBookings = function(req, res, next){
 
 };
 
-module.exports.getTeacherBooking = function(req, res, next){
+module.exports.getTeacherBookings = function(req, res, next){
 
 };

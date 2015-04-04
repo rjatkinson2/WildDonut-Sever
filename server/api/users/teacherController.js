@@ -1,4 +1,4 @@
-var User = require('./userModel.js');
+var User = require('../../database/models/userModel.js');
 
 module.exports.allTeachers = function(req, res, next){
   User.find({teacher: true}, function(err, docs){
