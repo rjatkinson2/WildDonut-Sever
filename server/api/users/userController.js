@@ -1,6 +1,10 @@
 var User = require('../../database/models/userModel.js');
 
 module.exports.createUser = function(req, res, next){
+  if(!req.body.username || !req.body.password){
+    res.status(400).send('username and password required for to create user');
+  }
+
   var username = req.body.username;
   var password = req.body.password;
 
@@ -27,6 +31,8 @@ module.exports.updateUser = function(req, res, next){
   var username = req.params.username;
 
   User.findOneAndUpdate({ username: username }, req.body, function(err, user){
+    username = req.body.username;
+    
     User.findOne({ username: username}, function(err,user){
       if(err){
         res.status(400).send('Bad Request');
@@ -40,6 +46,10 @@ module.exports.updateUser = function(req, res, next){
 };
 
 module.exports.login = function(req, res, next){
+  if(!req.body.username || !req.body.password){
+    res.status(400).send('username and password required for authentication');
+  }
+
   var username = req.body.username;
   var password = req.body.password;
 
