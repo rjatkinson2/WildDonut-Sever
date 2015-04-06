@@ -4,16 +4,17 @@
 
 # API Endpoints
 
-  ## users:
-    * POST: api/users - (creates user)
-    * POST: api/users/:username - (updates user)
-
   ## students:
     * GET: api/users/students/:username - (get particular student)
 
   ## teachers:
     * GET: api/users/teachers - (get all teachers)
     * GET: api/users/teachers/:username - (get particular teacher)
+
+  ## users:
+    * POST: api/users/ - (creates user)
+    * POST: api/users/login - (authenticates user)
+    * POST: api/users/:username - (updates user)
 
   ## bookings:
     * GET: api/bookings/students/:username - (get all bookings for a particular student)

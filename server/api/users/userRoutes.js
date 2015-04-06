@@ -1,17 +1,20 @@
-var userController = require('./userController.js');
+var userController = require('./userController');
+var studentController = require('./studentController');
+var teacherController = require('./teacherController');
+var User = require('../../database/models/userModel.js');
 
 module.exports = function(app) {
   //app === userRouter injected from middleware.js
-  
-  //Users:
-  app.post('/', userController.createUser);
-  app.get('/:id', userController.updateUser);
-  app.post('/login', userController.login); 
 
   //Students:
-  app.get('/students/:id', userController.getStudent);
+  app.get('/students/:username', studentController.getStudent);
 
   //Teachers
-  app.get('/teachers', userController.allTeachers);
-  app.get('/teachers/:id', userController.getTeacher);
+  app.get('/teachers', teacherController.allTeachers);
+  app.get('/teachers/:username', teacherController.getTeacher);
+
+  //Users:
+  app.post('/', userController.createUser);
+  app.post('/login', userController.login);
+  app.post('/:username', userController.updateUser);
 };
