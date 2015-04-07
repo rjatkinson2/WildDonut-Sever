@@ -64,7 +64,7 @@ module.exports.login = function(req, res, next){
         else if(!matches){ 
           res.status(401).send('Password does not match. Authentication denied.');
         }else{
-          res.send('Login successful.');
+          res.send(user);
         }
       });
     }
