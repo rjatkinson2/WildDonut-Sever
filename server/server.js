@@ -14,7 +14,6 @@ mongoose.connect(mongoURI, function(err){
   }
 });
 
-//mongoose.connect('mongodb');
 var app = express();
 
 var port = process.env.PORT || 4568;
