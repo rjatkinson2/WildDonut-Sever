@@ -10,7 +10,7 @@ var ClassesSchema = new mongoose.Schema({
   teacher_name: { type: String },
   student: { type: String },
   location: { type: String },
-  available: { type: Boolean, default: true }
+  available: { type: Boolean }
 });
 
 // compile schema into a model, which is a class from which we construct documents.
