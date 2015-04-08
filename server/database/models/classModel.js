@@ -6,8 +6,11 @@ var ClassesSchema = new mongoose.Schema({
   rate: { type: String, default: 0 },
   start_time: { type: Date },
   end_time: { type: Date },
+  teacher: { type: String },
+  teacher_name: { type: String },
   student: { type: String },
-  available: { type: Boolean, default: false }
+  location: { type: String },
+  available: { type: Boolean, default: true }
 });
 
 // compile schema into a model, which is a class from which we construct documents.

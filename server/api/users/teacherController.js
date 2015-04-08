@@ -3,33 +3,143 @@ var User = require('../../database/models/userModel.js');
 var Options = require('../../database/models/optionModel.js');
 
 module.exports.allTeacherClasses = function(req, res, next){
+  var teacher = req.params.username;
 
-};
-
-module.exports.allBookedClasses = function(req, res, next){
-
-};
-
-module.exports.allOpenClasses = function(req, res, next){
-
-};
-
-module.exports.createClass = function(req, res, next){
-
-};
-
-module.exports.updateClass = function(req, res, next){
-  var classId = req.params.id;
-
-  Class.findById(classId, function(err, classInstance){
+  User.findOne({ username: teacher }, function(err, user){
+    if(err){
+      res.status(400).send('Bad request.');
+    }else if(!user){
+      res.status(403).send('User not found');
+    }else{
+      res.json(user.classes);
+    }
   });
 };
 
-module.exports.deleteClass = function(req, res, next){
+module.exports.allBookedClasses = function(req, res, next){
+  var teacher = req.params.username;
+  var available = false;
 
+  Class.find({ teacher: teacher, available: available }, function(err, classes){
+    if(err){
+      res.status(400).send('Bad request.');
+    }else if(!classes){
+      res.status(403).send('User not found');
+    }else{
+      res.json(classes);
+    }
+  });
+};
+
+module.exports.allOpenClasses = function(req, res, next){
+  var teacher = req.params.username;
+  var available = true;
+
+  Class.findOne({ teacher: teacher, available: available }, function(err, classes){
+    if(err){
+      res.status(400).send('Bad request.');
+    }else if(!classes){
+      res.status(403).send('User not found');
+    }else{
+      res.json(classes);
+    }
+  });
+};
+
+module.exports.createClass = function(req, res, next){
+  // class_name, description, rate ($), date, time, location
+  var teacher = req.params.username;
+  var newClass = new Class({
+    name: req.body.class_name,
+    description: req.body.description,
+    rate: req.body.rate,
+    start_time: Date.now(),
+    end_time: Date.now(),
+    teacher: teacher,
+    location: req.body.location,
+    available: req.body.available
+  });
+
+  newClass.save(function(err, newClass){
+    User.findOne({ username: teacher }, function(err, user){
+      if(err){
+        res.status(400).send('Bad request.');
+      }else if(!user){
+        res.status(403).send('Teacher not found');
+      }else{
+        user.classes.push(newClass);
+        res.json(newClass);
+        user.save(function(err, user){
+          if(err){
+            console.log('server error on user save');
+          }else if(!user){
+            console.log('server error finding user to save class');
+          }else{
+            console.log('successfully added class to user');
+          }
+        });
+      }
+    });
+  });
+};
+
+
+// update class does not sync changes between class documents in the classes collection
+// and the individual instances of classes pushed onto the student's bookings and
+// existing in the teacher's classes array.
+// this functionality will be added in a future commit.
+module.exports.updateClass = function(req, res, next){
+  var classId = req.params.id;
+
+  // Need to eventually parse req.boy to handle new times.
+  Class.findByIdAndUpdate(classId, req.body, function(err, classInstance){
+    if(err){
+      res.status(400).send('Bad request.');
+    }else if(!classInstance){
+      res.status(403).send('Class not found');
+    }else{
+      Class.findById(classId, function(err, classInstance){
+        if(err){
+          res.status(400).send('Bad request.');
+        }else if(!classInstance){
+          res.status(403).send('Class not found');
+        }else{
+          res.json(classInstance);
+        }
+      });
+    }
+  });
+};
+
+// delete class does not sync deletions between class documents in the classes collection
+// and the individual instances of classes pushed onto the student's bookings and
+// existing in the teacher's classes array.
+// this functionality will be added in a future commit.
+module.exports.deleteClass = function(req, res, next){
+  var classId = req.params.id;
+
+  // Need to eventually parse req.boy to handle new times.
+  Class.findByIdAndRemove(classId, function(err, classInstance){
+    if(err){
+      res.status(400).send('Bad request.');
+    }else if(!classInstance){
+      res.status(403).send('Class not found');
+    }else{
+      res.json(classInstance);
+    }
+  });
 };
 
 module.exports.getClass = function(req, res, next){
-
+  var classId = req.params.id;
+  Class.findById(classId, function(err, classInstance){
+    if(err){
+      res.status(400).send('Bad request.');
+    }else if(!classInstance){
+      res.status(403).send('Class not found');
+    }else{
+      res.json(classInstance);
+    }
+  });
 };
 
