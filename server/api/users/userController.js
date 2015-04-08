@@ -1,3 +1,4 @@
+var Class = require('../../database/models/classModel.js');
 var User = require('../../database/models/userModel.js');
 
 module.exports.createUser = function(req, res, next){
@@ -31,8 +32,8 @@ module.exports.updateUser = function(req, res, next){
   var username = req.params.username;
 
   User.findOneAndUpdate({ username: username }, req.body, function(err, user){
-    username = req.body.username;
-    
+    username = req.body.username || username;
+
     User.findOne({ username: username}, function(err,user){
       if(err){
         res.status(400).send('Bad Request');
@@ -56,6 +57,8 @@ module.exports.login = function(req, res, next){
   User.findOne({username: username}, function(err, user){
     if(err){
       res.status(400).send('Bad Request');
+    }else if(!user){
+      res.status(403).send('User not found');
     }else{
       user.comparePassword(password, function(err, matches){
         if(err){
@@ -70,3 +73,8 @@ module.exports.login = function(req, res, next){
     }
   });
 };
+
+module.exports.getUser = function(req, res, next){
+  
+};
+

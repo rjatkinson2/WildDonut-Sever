@@ -1,3 +1,4 @@
+var Class = require('../../database/models/classModel.js');
 var User = require('../../database/models/userModel.js');
 
 module.exports.getStudent = function(req, res, next){
@@ -11,5 +12,15 @@ module.exports.getStudent = function(req, res, next){
     }else{
       res.json(user);
     }
+  });
+};
+
+module.exports.getBookings = function(req, res, next){
+
+};
+
+module.exports.bookClass = function(req, res, next){
+  Class.findOne({ name: 'advanced'}, function(err, classObject){
+
   });
 };
