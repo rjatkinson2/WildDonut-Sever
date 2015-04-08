@@ -1,26 +1,35 @@
+var Class = require('../../database/models/classModel.js');
 var User = require('../../database/models/userModel.js');
+var Options = require('../../database/models/optionModel.js');
 
-module.exports.allTeachers = function(req, res, next){
-  User.find({teacher: true}, function(err, docs){
-    if(err){
-      res.status(400).send('Bad request');
-    }else if(!docs){
-      res.status(404).send('No teachers found');
-    }else{
-      res.json(docs);
-    }
+module.exports.allTeacherClasses = function(req, res, next){
+
+};
+
+module.exports.allBookedClasses = function(req, res, next){
+
+};
+
+module.exports.allOpenClasses = function(req, res, next){
+
+};
+
+module.exports.createClass = function(req, res, next){
+
+};
+
+module.exports.updateClass = function(req, res, next){
+  var classId = req.params.id;
+
+  Class.findById(classId, function(err, classInstance){
   });
 };
 
-module.exports.getTeacher = function(req, res, next){
-  var username = req.params.username;
+module.exports.deleteClass = function(req, res, next){
 
-  User.findOne({ username: username, teacher: true }, function(err, user){
-    if(err){
-      res.status(400).send('Bad request');
-    }else if(!user){
-      res.status(404).send('Teacher not found');
-    }
-    res.json(user);
-  });
 };
+
+module.exports.getClass = function(req, res, next){
+
+};
+

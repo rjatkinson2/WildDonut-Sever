@@ -26,13 +26,13 @@
   ## user
 
     ### signup
-    curl --data "username=linda&&password=nycccccc" http://localhost:4568/api/users
+    curl --data "username=linda&&password=nycccccc" http://localhost:4568/api/users/signup
 
     ### login
     curl --data "username=linda&&password=nycccccc" http://localhost:4568/api/users/login
 
     ### update user
-    curl --data "username=fred&&firstName=Fred&&lastName=Tee&&location=Walmart&&picture=jj.jpg&&bio=boss&&teacher=true&&experience=none&&skill=eating&&payments=beer&&classes=testClass" http://localhost:4568/api/users/fred
+    curl --data "username=linda&&firstName=Fred&&lastName=Tee&&location=Walmart&&picture=jj.jpg&&bio=boss&&teacher=true&&experience=none&&skill=singing&&payments=beer" http://localhost:4568/api/users/linda
 
   ## students
     
@@ -57,3 +57,33 @@
 
     ### create booking user
     curl --data "teacherUsername=tony&&studentUsername=linda" http://localhost:4568/api/bookings
+
+
+# Updated API
+
+## cURL for API testing
+* curl --data "" http://localhost:4568/api/
+
+## Authentication
+* api/users/login POST - Returns the user object after authentication
+* api/users/signup POST - Returns the user object after creating a new user in the database
+
+## Student / Teacher Profile Settings
+* /api/users/:username  POST - Updates a user's information (teacher and student)
+* /api/users/:username  GET - Returns a data object for a user (teacher and student)
+
+## Student
+* /api/users/:username/student/classes/booked GET - Returns all classes a student has booked
+* /api/users/:username/student/classes/booked POST - Student clicks “book” on a class
+
+## Teacher
+* /api/users/:username/teacher/classes GET - Returns array of classes objects for teacher
+* /api/users/:username/teacher/classes/booked GET - Returns all booked classes
+* /api/users/:username/teacher/classes/available GET - Returns all classes w/ no signups
+* /api/users/:username/teacher/classes/ POST - Teacher creates a new class
+* /api/users/:username/teacher/classes/:id POST - Teacher update / modify an existing class
+* /api/users/:username/teacher/classes/:id DELETE - Teacher can they delete the class
+* /api/users/:username/teacher/classes/:id GET - Returns object with details of a specific class
+
+## Browse
+* /api/classes GET - Returns an array of class objects for all classes that are available

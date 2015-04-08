@@ -1,5 +1,6 @@
 var mongoose = require('mongoose');
 var bcrypt = require('bcrypt-nodejs');
+var ClassesSchema = require('./classModel.js').schema;
 
 // Defines the number of iterations the key setup phase uses.
 // Ten is the default value.
@@ -13,11 +14,12 @@ var UserSchema = new mongoose.Schema({
   location: { type: String },
   picture: { type: String },  
   bio: { type: String },
+  bookings: { type: Array },
   teacher: { type: Boolean, default: false },
   experience: { type: String },
   skill: { type: String },
   payments: { type: Array },
-  classes: { type: Array }
+  classes: [ ClassesSchema ]
 });
 
 // convert password to a hash before saving.
