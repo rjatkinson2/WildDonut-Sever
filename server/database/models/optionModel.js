@@ -1,3 +1,7 @@
+// This model is currently unused
+// Ideally, classModels would utilize this as a subdocument
+// Instead, the data is being duplicated on the class level for early simplicty
+
 var mongoose = require('mongoose');
 
 var OptionsSchema = new mongoose.Schema({

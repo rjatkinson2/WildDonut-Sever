@@ -62,7 +62,10 @@
 # Updated API
 
 ## cURL for API testing
-* curl --data "" http://localhost:4568/api/
+* (Basic curl structure) curl --data "" http://localhost:4568/api/
+
+* (Create a class on the teacher) curl -H "Content-Type: application/json" -X POST -d '{"class_name":"pizza pie development","description":"pepporoni and pinneapple","rate":"5","start_time":1428513230110,"end_time":1428513230110,"teacher":"kyle","location":"mojave desert","available":"false"}' http://localhost:4568/api/users/linda/teacher/classes/552566a6738fe0e48fbfcad8
+
 
 ## Authentication
 * api/users/login POST - Returns the user object after authentication
