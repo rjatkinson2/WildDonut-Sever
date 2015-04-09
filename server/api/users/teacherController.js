@@ -53,21 +53,22 @@ module.exports.allOpenClasses = function(req, res, next){
 module.exports.createClass = function(req, res, next){
   // class_name, description, rate ($), date, time, location
   var teacher = req.params.username;
-  var newClass = new Class({
-    name: req.body.name,
-    description: req.body.description,
-    rate: req.body.rate,
-    date: req.body.date,
-    start_time: Date.now(),
-    end_time: Date.now(),
-    teacher_username: teacher,
-    teacher_name: req.body.teacher_name,
-    location: req.body.location,
-    is_booked: false
-  });
+  
+  User.findOne({ username: teacher })
+  .exec(function(err, user){
+    var newClass = new Class({
+      name: req.body.name,
+      description: req.body.description,
+      rate: req.body.rate,
+      date: req.body.date,
+      start_time: Date.now(),
+      end_time: Date.now(),
+      teacher: user._id,
+      location: req.body.location,
+      is_booked: false
+    });
 
-  newClass.save(function(err, newClass){
-    User.findOne({ username: teacher }, function(err, user){
+    newClass.save(function(err, newClass){
       if(err){
         res.status(400).send('Bad request.');
       }else if(!user){
@@ -98,7 +99,8 @@ module.exports.updateClass = function(req, res, next){
   var classId = req.params.id;
 
   // Need to eventually parse req.boy to handle new times.
-  Class.findByIdAndUpdate(classId, req.body, function(err, classInstance){
+  Class.findByIdAndUpdate(classId, req.body)
+  .exec(function(err, classInstance){
     if(err){
       res.status(400).send('Bad request.');
     }else if(!classInstance){
@@ -124,8 +126,8 @@ module.exports.updateClass = function(req, res, next){
 module.exports.deleteClass = function(req, res, next){
   var classId = req.params.id;
 
-  // Need to eventually parse req.boy to handle new times.
-  Class.findByIdAndRemove(classId, function(err, classInstance){
+  Class.findByIdAndRemove(classId)
+  .exec(function(err, classInstance){
     if(err){
       res.status(400).send('Bad request.');
     }else if(!classInstance){
@@ -138,7 +140,10 @@ module.exports.deleteClass = function(req, res, next){
 
 module.exports.getClass = function(req, res, next){
   var classId = req.params.id;
-  Class.findById(classId, function(err, classInstance){
+  
+  Class.findById(classId)
+  .populate('teacher student')
+  .exec(function(err, classInstance){
     if(err){
       res.status(400).send('Bad request.');
     }else if(!classInstance){
