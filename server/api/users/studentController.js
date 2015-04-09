@@ -32,7 +32,7 @@ module.exports.getBookings = function(req, res, next){
 };
 
 module.exports.bookClass = function(req, res, next){
-  var class_id = req.body.class_id;
+  var class_id = req.body._id;
   var username = req.body.student_username;
   req.body.is_booked = true;
 
