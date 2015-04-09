@@ -54,7 +54,7 @@ module.exports.createClass = function(req, res, next){
   // class_name, description, rate ($), date, time, location
   var teacher = req.params.username;
   var newClass = new Class({
-    name: req.body.class_name,
+    name: req.body.name,
     description: req.body.description,
     rate: req.body.rate,
     start_time: Date.now(),
