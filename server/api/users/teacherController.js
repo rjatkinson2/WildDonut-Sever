@@ -20,7 +20,7 @@ module.exports.allTeacherClasses = function(req, res, next){
 
 module.exports.allBookedClasses = function(req, res, next){
   var teacher = req.params.username;
-  var available = false;
+  var available = true;
 
   Class.find({ teacher: teacher, available: available })
   .exec(function(err, classes){
@@ -36,7 +36,7 @@ module.exports.allBookedClasses = function(req, res, next){
 
 module.exports.allOpenClasses = function(req, res, next){
   var teacher = req.params.username;
-  var available = true;
+  var available = false;
 
   Class.find({ teacher: teacher, available: available })
   .exec(function(err, classes){
@@ -61,7 +61,7 @@ module.exports.createClass = function(req, res, next){
     end_time: Date.now(),
     teacher: teacher,
     location: req.body.location,
-    available: req.body.available
+    is_booked: false
   });
 
   newClass.save(function(err, newClass){
