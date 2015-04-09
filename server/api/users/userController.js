@@ -79,7 +79,7 @@ module.exports.getUser = function(req, res, next){
   var username = req.params.username;
 
   User.findOne({ username: username })
-  .populate('classes')
+  .populate('classes bookings')
   .exec(function(err, user){
     if(err){
       res.status(400).send('Bad request');
