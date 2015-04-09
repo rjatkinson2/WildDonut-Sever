@@ -1,6 +1,6 @@
 var mongoose = require('mongoose');
 var bcrypt = require('bcrypt-nodejs');
-var ClassesSchema = require('./classModel.js').schema;
+var Class = require('./classModel.js');
 
 // Defines the number of iterations the key setup phase uses.
 // Ten is the default value.
@@ -19,7 +19,7 @@ var UserSchema = new mongoose.Schema({
   experience: { type: String },
   skill: { type: String },
   payments: { type: Array },
-  classes: [ ClassesSchema ]
+  classes: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Class'}]
 });
 
 // convert password to a hash before saving.
@@ -27,7 +27,9 @@ UserSchema.pre('save', function(next){
   var user = this;
 
   // if the password hasn't changed, then there's no need to proceed with salt generation
-  if(!user.isModified('password')){ console.log('we all good'); return next(); }
+  if(!user.isModified('password')){ 
+    return next();
+  }
 
   // generate the salt
   bcrypt.genSalt(SALT_WORK_FACTOR, function(err, salt){

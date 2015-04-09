@@ -5,7 +5,9 @@ var Options = require('../../database/models/optionModel.js');
 module.exports.allTeacherClasses = function(req, res, next){
   var teacher = req.params.username;
 
-  User.findOne({ username: teacher }, function(err, user){
+  User.findOne({ username: teacher })
+  .populate('classes')
+  .exec(function(err, user){
     if(err){
       res.status(400).send('Bad request.');
     }else if(!user){
@@ -20,7 +22,8 @@ module.exports.allBookedClasses = function(req, res, next){
   var teacher = req.params.username;
   var available = false;
 
-  Class.find({ teacher: teacher, available: available }, function(err, classes){
+  Class.find({ teacher: teacher, available: available })
+  .exec(function(err, classes){
     if(err){
       res.status(400).send('Bad request.');
     }else if(!classes){
@@ -35,11 +38,12 @@ module.exports.allOpenClasses = function(req, res, next){
   var teacher = req.params.username;
   var available = true;
 
-  Class.findOne({ teacher: teacher, available: available }, function(err, classes){
+  Class.find({ teacher: teacher, available: available })
+  .exec(function(err, classes){
     if(err){
       res.status(400).send('Bad request.');
     }else if(!classes){
-      res.status(403).send('User not found');
+      res.status(403).send('Classes query failed');
     }else{
       res.json(classes);
     }
@@ -67,14 +71,14 @@ module.exports.createClass = function(req, res, next){
       }else if(!user){
         res.status(403).send('Teacher not found');
       }else{
-        user.classes.push(newClass);
-        res.json(newClass);
+        user.classes.push(newClass._id);
         user.save(function(err, user){
           if(err){
             console.log('server error on user save');
           }else if(!user){
             console.log('server error finding user to save class');
           }else{
+            res.json(newClass);
             console.log('successfully added class to user');
           }
         });
@@ -142,4 +146,3 @@ module.exports.getClass = function(req, res, next){
     }
   });
 };
-
