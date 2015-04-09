@@ -1,4 +1,5 @@
 var mongoose = require('mongoose');
+var User = require('./userModel.js');
 
 var ClassesSchema = new mongoose.Schema({
   name: { type: String },
@@ -7,10 +8,8 @@ var ClassesSchema = new mongoose.Schema({
   date: { type: Date },
   start_time: { type: Date },
   end_time: { type: Date },
-  teacher_username: { type: String },
-  teacher_name: { type: String },
-  student_username: { type: String },
-  student_name: { type: String },
+  teacher: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+  student: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
   location: { type: String },
   is_booked: { type: Boolean }
 });
