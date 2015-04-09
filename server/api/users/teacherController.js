@@ -59,7 +59,8 @@ module.exports.createClass = function(req, res, next){
     rate: req.body.rate,
     start_time: Date.now(),
     end_time: Date.now(),
-    teacher: teacher,
+    teacher_username: teacher,
+    teacher_name: req.body.teacher_name,
     location: req.body.location,
     is_booked: false
   });
