@@ -9,17 +9,15 @@ var SALT_WORK_FACTOR = 10;
 var UserSchema = new mongoose.Schema({
   username: { type: String, required: true, index: { unique: true } },
   password: { type: String, required: true },
-  firstName: { type: String },
-  lastName: { type: String },
+  first_name: { type: String },
+  last_name: { type: String },
   location: { type: String },
-  picture: { type: String },  
   bio: { type: String },
+  picture_url: { type: String },
   bookings: { type: Array },
-  teacher: { type: Boolean, default: false },
-  experience: { type: String },
-  skill: { type: String },
-  payments: { type: Array },
-  classes: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Class'}]
+  is_teacher: { type: Boolean, default: false },
+  skills: { type: Array },
+  classes: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Class' }]
 });
 
 // convert password to a hash before saving.
