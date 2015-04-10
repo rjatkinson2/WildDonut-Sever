@@ -14,7 +14,6 @@ var UserSchema = new mongoose.Schema({
   location: { type: String },
   bio: { type: String },
   picture_url: { type: String },
-  bookings: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Class' }],
   is_teacher: { type: Boolean, default: false },
   skills: { type: Array },
   classes: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Class' }]
