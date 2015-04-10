@@ -22,7 +22,7 @@ module.exports.allBookedClasses = function(req, res, next){
   var teacher = req.params.username;
   var is_booked = true;
 
-  Class.find({ teacher: teacher, is_booked: is_booked })
+  Class.find({ teacher_username: teacher, is_booked: is_booked })
   .exec(function(err, classes){
     if(err){
       res.status(400).send('Bad request.');
@@ -38,7 +38,7 @@ module.exports.allOpenClasses = function(req, res, next){
   var teacher = req.params.username;
   var is_booked = true;
 
-  Class.find({ teacher: teacher, is_booked: is_booked })
+  Class.find({ teacher_username: teacher, is_booked: is_booked })
   .exec(function(err, classes){
     if(err){
       res.status(400).send('Bad request.');
@@ -57,9 +57,11 @@ module.exports.createClass = function(req, res, next){
     name: req.body.name,
     description: req.body.description,
     rate: req.body.rate,
+    date: req.body.date,
     start_time: Date.now(),
     end_time: Date.now(),
-    teacher: teacher,
+    teacher_username: teacher,
+    teacher_name: req.body.teacher_name,
     location: req.body.location,
     is_booked: false
   });

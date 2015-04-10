@@ -4,6 +4,7 @@ var ClassesSchema = new mongoose.Schema({
   name: { type: String },
   description: { type: String },
   rate: { type: String, default: 0 },
+  date: { type: Date },
   start_time: { type: Date },
   end_time: { type: Date },
   teacher_username: { type: String },
