@@ -18,23 +18,32 @@ module.exports.getStudent = function(req, res, next){
 module.exports.getBookings = function(req, res, next){
   var username = req.params.username;
 
-  User.findOne({ username: username })
-  .populate('bookings')
-  .exec(function(err, user){
+  User.findOne({username: username}, function(err, user){
     if(err){
       res.status(400).send('Bad request');
     }else if(!user){
-      res.status(404).send('Student not found');
+      res.status(404).send('USER not found');
     }else{
-      res.json(user.bookings);
+      Class.find({ student: user._id })
+      .populate('teacher student')
+      .exec(function(err, classInstance){
+        if(err){
+          res.status(400).send('Bad request');
+        }else if(!user){
+          res.status(404).send('Class not found');
+        }else{
+          res.json(classInstance);
+        }
+      });
     }
   });
 };
 
 module.exports.bookClass = function(req, res, next){
-  var class_id = req.body._id;
-  var username = req.body.student_username;
+  var class_id = req.body.class_id;
+  var student = req.body.student_id;
   req.body.is_booked = true;
+  req.body.student = student;
 
   
   Class.findByIdAndUpdate(class_id, req.body, function(err, classObject){
@@ -44,19 +53,7 @@ module.exports.bookClass = function(req, res, next){
       }else if(!classObject){
         res.status(403).send('Class not found');
       }else{
-        User.findOne({ username: username }, function(err, user){
-          if(err){
-            res.status(400).send('Bad Request');
-          }else if(!user){
-            res.status(403).send('User not found');
-          }else{
-            user.bookings.push(classObject._id);
-            res.status(201).send(classObject);   
-            user.save(function(err,user){
-              console.log("added a booking to user");
-            });
-          }
-        });    
+        res.status(201).send("Successfully booked a class");    
       }
     });
   });  
