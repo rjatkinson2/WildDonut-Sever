@@ -63,7 +63,7 @@ module.exports.allOpenClasses = function(req, res, next){
 module.exports.createClass = function(req, res, next){
   // class_name, description, rate ($), date, time, location
   var teacher = req.params.username;
-  
+
   User.findOne({ username: teacher })
   .exec(function(err, user){
     var newClass = new Class({
@@ -150,7 +150,7 @@ module.exports.deleteClass = function(req, res, next){
 
 module.exports.getClass = function(req, res, next){
   var classId = req.params.id;
-  
+
   Class.findById(classId)
   .populate('teacher student')
   .exec(function(err, classInstance){

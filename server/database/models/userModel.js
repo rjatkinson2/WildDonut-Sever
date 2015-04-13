@@ -7,8 +7,9 @@ var Class = require('./classModel.js');
 var SALT_WORK_FACTOR = 10;
 
 var UserSchema = new mongoose.Schema({
-  username: { type: String, required: true, index: { unique: true } },
-  password: { type: String, required: true },
+  username: { type: String, index: { unique: true } },
+  password: { type: String},
+  // email: { type: String},
   first_name: { type: String },
   last_name: { type: String },
   location: { type: String },
@@ -22,26 +23,29 @@ var UserSchema = new mongoose.Schema({
 // convert password to a hash before saving.
 UserSchema.pre('save', function(next){
   var user = this;
+  if (user.password){ //for local bcrypt strategy only
+    // if the password hasn't changed, then there's no need to proceed with salt generation
+    if(!user.isModified('password')){
+      return next();
+    }
 
-  // if the password hasn't changed, then there's no need to proceed with salt generation
-  if(!user.isModified('password')){ 
-    return next();
-  }
-
-  // generate the salt
-  bcrypt.genSalt(SALT_WORK_FACTOR, function(err, salt){
-    if(err){ return next(err); }
-
-    // hash the passowrd along with the newly generated salt
-    bcrypt.hash(user.password, salt, null, function(err, hash){
+    // generate the salt
+    bcrypt.genSalt(SALT_WORK_FACTOR, function(err, salt){
       if(err){ return next(err); }
 
-      // the password associated with the model is stored at user.password
-      // we need to replace that value with the new hash before saving
-      user.password = hash;
-      next();
+      // hash the passowrd along with the newly generated salt
+      bcrypt.hash(user.password, salt, null, function(err, hash){
+        if(err){ return next(err); }
+
+        // the password associated with the model is stored at user.password
+        // we need to replace that value with the new hash before saving
+        user.password = hash;
+        next();
+      });
     });
-  });
+  }else{
+    next();
+  }
 });
 
 UserSchema.methods.comparePassword = function(guessedPassword, cb){

@@ -41,38 +41,14 @@ module.exports.updateUser = function(req, res, next){
       }else if(!user){
         res.status(403).send('User not found');
       }else{
-        res.status(201).send(user);      
+        res.status(201).send(user);
       }
     });
   });
 };
 
 module.exports.login = function(req, res, next){
-  if(!req.body.username || !req.body.password){
-    return res.status(400).send('username and password required for authentication');
-  }
-
-  var username = req.body.username;
-  var password = req.body.password;
-
-  User.findOne({username: username}, function(err, user){
-    if(err){
-      res.status(400).send('Bad Request');
-    }else if(!user){
-      res.status(403).send('User not found');
-    }else{
-      user.comparePassword(password, function(err, matches){
-        if(err){
-          res.status(400).send('Bad Request');
-        }
-        else if(!matches){ 
-          res.status(401).send('Password does not match. Authentication denied.');
-        }else{
-          res.send(user);
-        }
-      });
-    }
-  });
+  if (req.user) res.send(req.user);
 };
 
 module.exports.getUser = function(req, res, next){
