@@ -3,8 +3,7 @@
   "version": "0.0.1",
   "description": "Server implementation for Wild Donut, an application that turns every user into their own marketplace of skills.",
   "main": "index.js",
-  "scripts": {
-  },
+  "scripts": {},
   "repository": {
     "type": "git",
     "url": "https://github.com/WildDonut/WildDonut-Sever.git"
@@ -28,12 +27,13 @@
   "homepage": "https://github.com/WildDonut/WildDonut-Sever",
   "dependencies": {
     "bcrypt-nodejs": "0.0.3",
-    "mongoose": "^4.0.1",
     "body-parser": "^1.4.3",
     "cors": "^2.5.3",
     "express": "^4.4.5",
+    "mongoose": "^4.0.1",
     "morgan": "^1.1.1",
     "q": "^1.0.1",
-    "request": "^2.36.0"
+    "request": "^2.36.0",
+    "stripe": "^3.3.4"
   }
 }
