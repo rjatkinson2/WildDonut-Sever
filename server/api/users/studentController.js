@@ -58,3 +58,18 @@ module.exports.bookClass = function(req, res, next){
     });
   });  
 };
+
+module.exports.classesWithoutReviews = function(req, res, next){
+  Class
+    .find({student: user._id})
+    .populate('student reviews')
+    .where('date').lt(new Date())
+    .where('reviews').lt([])
+    .exec(function(err, classes) {
+      if (err) {
+        res.status(400).send('Bad request.');
+      } else {
+        res.status(200).json(classes);
+      }
+    });
+}

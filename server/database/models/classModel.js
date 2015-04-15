@@ -1,5 +1,6 @@
 var mongoose = require('mongoose');
 var User = require('./userModel.js');
+var Review = require('./reviewModel.js');
 
 var ClassesSchema = new mongoose.Schema({
   name: { type: String },
@@ -11,7 +12,8 @@ var ClassesSchema = new mongoose.Schema({
   teacher: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
   student: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
   location: { type: String },
-  is_booked: { type: Boolean }
+  is_booked: { type: Boolean },
+  reviews: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Review' }]
 });
 
 // compile schema into a model, which is a class from which we construct documents.

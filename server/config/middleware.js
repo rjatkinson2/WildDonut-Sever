@@ -8,6 +8,7 @@ module.exports = function(app, express) {
   var userRouter = express.Router();
   var classRouter = express.Router();
   var paymentRouter = express.Router();
+  
   app.use(morgan('dev'));
 
   app.use(function(req, res, next) {
@@ -28,7 +29,7 @@ module.exports = function(app, express) {
   app.use(expressSession({secret: 'secret'}));
   app.use(passport.initialize());
   app.use(passport.session());
-
+  
   require('../api/users/userRoutes.js')(userRouter, passport);
   require('../api/classes/classRoutes.js')(classRouter);
   require('../api/payments/paymentRoutes.js')(paymentRouter);
