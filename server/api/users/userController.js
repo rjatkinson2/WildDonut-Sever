@@ -53,6 +53,13 @@ module.exports.login = function(req, res, next){
   }
 };
 
+module.exports.logout = function(req, res, next){
+  if (req.user){
+    req.logout();
+    res.send(200);
+  }
+};
+
 module.exports.getUser = function(req, res, next){
   var username = req.params.username;
 
