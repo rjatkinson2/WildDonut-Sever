@@ -48,7 +48,9 @@ module.exports.updateUser = function(req, res, next){
 };
 
 module.exports.login = function(req, res, next){
-  if (req.user) res.send(req.user);
+  if (req.user) {
+    res.cookie('user', JSON.stringify(req.user)).send(req.user);
+  }
 };
 
 module.exports.getUser = function(req, res, next){

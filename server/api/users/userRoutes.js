@@ -30,6 +30,7 @@ module.exports = function(app, passport) {
   //Users:
   app.post('/signup', userController.createUser);
   app.post('/login', passport.authenticate(['local', 'facebook']), userController.login);
+  app.post('/checkLoginStatus', userController.login);
   app.post('/:username', userController.updateUser);
   app.get('/:username', userController.getUser);
 };
