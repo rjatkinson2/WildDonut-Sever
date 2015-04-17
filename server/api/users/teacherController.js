@@ -165,63 +165,6 @@ module.exports.getClass = function(req, res, next){
   });
 };
 
-// Review specific functions
-module.exports.getReviewDetails = function(req, res, next){
-  var class_id = req.params.id;
-  var teacher_username = req.params.username;
-
-  // Should be refactored into utilities at some point
-  // Need to namespace objects
-  Review
-    .aggregate([
-      { "$match": { "class_id": class_id } },
-      { "$group": { "_id": "$class_id", "avgClassRating": { "$avg": "$rating" } } }
-    ])
-    .exec(function(err, results) {
-      if (err) {
-        res.status(400).send('Bad request.');
-      } else {
-        Review
-          .aggregate([
-            { "$match": { "class_id": class_id } },
-            { "$group": { "_id": "$class_id", "totalClassRatings": { "$sum": 1 } } }
-          ])
-          .exec(function(err, results1) {
-            if (err) {
-              res.status(400).send('Bad request.');
-            } else {
-              results.push(results1[0]);
-              Review
-                .aggregate([
-                  { "$match": { "teacher_username": teacher_username } },
-                  { "$group": { "_id": "$teacher_username", "avgTeacherRating": { "$avg": "$rating" } } }
-                ])
-                .exec(function(err, results2) {
-                  if (err) {
-                    res.status(400).send('Bad request.');
-                  } else {
-                    results.push(results2[0]);
-                    Review
-                      .aggregate([
-                        { "$match": { "teacher_username": teacher_username } },
-                        { "$group": { "_id": "$teacher_username", "totalTeacherRatings": { "$sum": 1 } } }
-                      ])
-                      .exec(function(err, results3) {
-                        if (err) {
-                          res.status(400).send('Bad request.');
-                        } else {
-                          results.push(results3[0]);
-                          res.status(200).json(results);
-                        }
-                      });
-                  }
-                });
-            }
-          });
-      }
-    });
-}
-
 module.exports.getReviews = function(req, res, next){
   var class_id = req.params.id;
 
@@ -246,23 +189,69 @@ module.exports.createReview = function(req, res, next){
     rating: req.body.rating,
     review: req.body.review,
     date: req.body.date,
-    has_review: req.body.has_review,
     student_name: req.body.student_name,
     teacher_username: teacher_username,
     class_id: class_id
   });
 
   Class.findOne({_id: class_id})
+    .populate('teacher')
     .exec(function(err, model) {
       newReview.save(function(err, review) {
         if (err) {
           res.status(400).send('Bad request.');
         } else {
-          model.reviews.push(review._id);
-          model.save();
-          
           res.status(201);
           console.log('Review has been created.');
+          res.end();
+
+          // Push the review into the class.reviews array
+          model.reviews.push(review._id);
+          model.save();
+
+          // Start
+          // Calculate totals and averages for class and teacher on review creation
+          Review
+            .aggregate([
+              { "$match": { "class_id": class_id } },
+              { "$group": { "_id": "$class_id", "avgClassRating": { "$avg": "$rating" } } }
+            ])
+            .exec(function(err, result) {
+              model.avg_rating = result[0].avgClassRating;
+              model.save();
+            });
+
+          Review
+            .aggregate([
+              { "$match": { "class_id": class_id } },
+              { "$group": { "_id": "$class_id", "totalClassRatings": { "$sum": 1 } } }
+            ])
+            .exec(function(err, result) {
+              model.total_ratings = result[0].totalClassRatings;
+              model.save();
+            });
+
+            Review
+              .aggregate([
+                { "$match": { "teacher_username": teacher_username } },
+                { "$group": { "_id": "$teacher_username", "avgTeacherRating": { "$avg": "$rating" } } }
+              ])
+              .exec(function(err, result) {
+                model.teacher.avg_rating = result[0].avgTeacherRating;
+                model.teacher.save();
+              });
+
+              Review
+                .aggregate([
+                  { "$match": { "teacher_username": teacher_username } },
+                  { "$group": { "_id": "$teacher_username", "totalTeacherRatings": { "$sum": 1 } } }
+                ])
+                .exec(function(err, result) {
+                  model.teacher.total_ratings = result[0].totalTeacherRatings;
+                  model.teacher.save();
+                });
+                // End
+                // Calculate totals and averages for class and teacher on review creation
         }
       });
     });

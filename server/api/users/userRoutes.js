@@ -23,7 +23,6 @@ module.exports = function(app, passport) {
   app.get('/:username/teacher/classes/:id', teacherController.getClass);
 
   // Reviews
-  app.get('/:username/teacher/classes/:id/reviews/details', teacherController.getReviewDetails);
   app.get('/:username/teacher/classes/:id/reviews', teacherController.getReviews);
   app.post('/:username/teacher/classes/:id/reviews', teacherController.createReview);
   app.get('/:username/student/classes/completed', studentController.classesWithoutReviews);
