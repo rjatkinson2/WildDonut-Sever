@@ -36,8 +36,8 @@ module.exports = function(passport, User){
   ));
 
   passport.use('facebook', new FacebookTokenStrategy({
-      clientID: 'client_id',
-      clientSecret: 'client_secret'
+      clientID: process.env.FBCLIENTID,
+      clientSecret: process.env.FBCLIENTSECRET
     },
     function(accessToken, refreshToken, profile, done) {
       User.findOne({ username: profile.id }, function (err, user) {
@@ -67,7 +67,8 @@ module.exports = function(passport, User){
 };
 
 module.exports.ensureAuthenticated = function (req, res, next){
-  if (req.path === '/login/' || req.path === '/signup/') {
+  var publicRoutes = ['/login/', '/login', '/signup/', '/signup'];
+  if (publicRoutes.indexOf(req.path) !== -1) {
     return next();
   }else{
     return req.isAuthenticated() ? next() : res.send(403);
