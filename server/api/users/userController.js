@@ -2,7 +2,6 @@ var Class = require('../../database/models/classModel.js');
 var User = require('../../database/models/userModel.js');
 
 module.exports.createUser = function(req, res, next){
-
   if(!req.body.username || !req.body.password){
     return res.status(400).send('username and password required for to create user');
   }
