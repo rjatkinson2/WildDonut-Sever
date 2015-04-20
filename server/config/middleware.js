@@ -8,7 +8,6 @@ module.exports = function(app, express) {
   var userRouter = express.Router();
   var classRouter = express.Router();
   var paymentRouter = express.Router();
-  
   app.use(morgan('dev'));
 
   app.use(function(req, res, next) {
@@ -26,6 +25,7 @@ module.exports = function(app, express) {
   app.use(cookieParser());
   app.use(bodyParser.urlencoded({extended: true}));
   app.use(bodyParser.json());
+
   app.use(expressSession({secret: 'secret'}));
   app.use(passport.initialize());
   app.use(passport.session());
