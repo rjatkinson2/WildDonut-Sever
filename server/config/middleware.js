@@ -8,6 +8,8 @@ module.exports = function(app, express) {
   var userRouter = express.Router();
   var classRouter = express.Router();
   var paymentRouter = express.Router();
+  var imageRouter = express.Router();
+  
   app.use(morgan('dev'));
 
   app.use(function(req, res, next) {
@@ -33,8 +35,10 @@ module.exports = function(app, express) {
   require('../api/users/userRoutes.js')(userRouter, passport);
   require('../api/classes/classRoutes.js')(classRouter);
   require('../api/payments/paymentRoutes.js')(paymentRouter);
+  require('../api/images/imageRoutes.js')(imageRouter);
 
-  app.use('/api/payments', paymentRouter);
   app.use('/api/users', userRouter); // use user router for all user requests
   app.use('/api/classes', classRouter); //use bookings router for all booking requests
+  app.use('/api/payments', paymentRouter);
+  app.use('/api/images', imageRouter);
 };

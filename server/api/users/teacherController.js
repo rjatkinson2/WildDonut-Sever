@@ -179,7 +179,7 @@ module.exports.getReviews = function(req, res, next){
         res.status(200).json(reviews);
       }
     });
-}
+};
 
 module.exports.createReview = function(req, res, next){
   var teacher_username = req.params.username;
@@ -255,4 +255,4 @@ module.exports.createReview = function(req, res, next){
         }
       });
     });
-}
+};
