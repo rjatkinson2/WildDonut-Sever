@@ -1,2 +1,3 @@
 # Dependency directory
 node_modules
+server/api/images/credentials.js
