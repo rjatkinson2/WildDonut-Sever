@@ -19,7 +19,7 @@ module.exports.imageErrors = function(req, res, next){
 };
 
 module.exports.userImageUpload = function(req, res, next){
-  var photoId = req.body.userName + '-profile';
+  var photoId = req.body.userName + '-profile.' + req.files.file.extension;
   awsConfig.s3uploader(req.files.file.path, photoId, function(err, data){
     if(err){
       return res.status(500).send('failed to upload to s3').end();
@@ -29,7 +29,7 @@ module.exports.userImageUpload = function(req, res, next){
 };
 
 module.exports.classImageUpload = function(req, res, next){
-  var photoId = req.body.className + '-banner';
+  var photoId = req.body.className + '-banner.' + req.files.file.extension;
   awsConfig.s3uploader(req.files.file.path, photoId, function(err, data){
     if(err){
       return res.status(500).send('failed to upload to s3').end();
