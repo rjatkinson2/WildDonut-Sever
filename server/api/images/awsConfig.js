@@ -5,7 +5,7 @@ var fs = require('fs'),
 
 // import aws credentials
 var AWS_ACCESS_KEY = creds.aws_access_key_id || process.env.creds.aws_access_key_id,
-    AWS_SECRET_KEY = creds.aws_secret_access_key || process.env.creds.aws_access_key_id;
+    AWS_SECRET_KEY = creds.aws_secret_access_key || process.env.creds.aws_secret_access_key;
 
 // configure aws and instantiate photoBucket instance
 aws.config.update({accessKeyId: AWS_ACCESS_KEY, secretAccessKey: AWS_SECRET_KEY});
